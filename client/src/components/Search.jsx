@@ -43,6 +43,7 @@ const Search = ({setList, setNoResult}) => {
       <button onClick={(e) => { // All movies CLICK
 
         e.preventDefault();
+        setNoResult(false);
         setList(movies1);
 
         } }>All Movies</button>

@@ -5,6 +5,7 @@ const {useState} = React;
 
 const MovieList = ({movies, areNoResults}) => {
 console.log('MovieList?');
+// console.log('set NO result', setNoResult);
 
 if(areNoResults) {
   return (
