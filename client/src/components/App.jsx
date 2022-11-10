@@ -3,7 +3,7 @@ import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
 import {movies1, movies2} from '../sampleData/data.js';
 import AddMovie from './AddMovie.jsx';
-
+import WatchedButtons from './WatchedButtons.jsx';
 const {useState} = React;
 
 
@@ -11,9 +11,6 @@ const {useState} = React;
 const App = (props) => {
 const [movielist, setlist] = useState(movies1);
 const [areNoResults, setAreNoResults] = useState(false);
-
-// const inputRef2 = useRef(null);
-  // const [searchedMov, setSearchedMov] = useState([]);
 
   function handleAdd(e) {
   e.preventDefault();
@@ -23,13 +20,14 @@ const [areNoResults, setAreNoResults] = useState(false);
   movies1.unshift({title: e.target.movieName.value});
   console.log('this is the copy\n', copyArr);
   setlist(copyArr);
-
-    // var inputVal = inputRef2.current.value;
-    // // console.log('adding this movie?->  ', inputVal);
-    // movies1.unshift({title: inputVal});
-    // console.log('\n\nmovies1 updated?\n\n', movies1);
-    // setList(movies1);
     }
+  function handleRender(inputlist) {
+    // debugger;
+    console.log('handling render with list: ..', inputlist);
+    // console.log(setlist);
+
+    setlist(inputlist);
+  }
 
 
   return (
@@ -38,7 +36,7 @@ const [areNoResults, setAreNoResults] = useState(false);
     <h1 className='header'>Movie List</h1>
     <AddMovie handleAdd={handleAdd}/>
     <Search setNoResult = {(b) => setAreNoResults(b)} setList={(list) => setlist(list)}/>
-    <MovieList areNoResults={areNoResults} movies={movielist}/>
+    <MovieList handleRender={handleRender} areNoResults={areNoResults} movies={movielist}/>
   </div>
   );
 };

@@ -27,3 +27,11 @@ body {
 .btn {
   background-color: rgb(78, 193, 78);
 }
+
+.to-watch {
+  background-color: gold;
+}
+
+.watched {
+  background-color: rgb(152, 157, 155);
+}

@@ -29,9 +29,9 @@ const Search = ({setList, setNoResult}) => {
   return (
   <div className='search'>
     <form>
-      <textarea ref={inputRef}></textarea>
+      <textarea placeholder='Search a Title..'ref={inputRef}></textarea>
 
-      <button onClick={(e) => { //Search CLICK
+      <button onClick={(e) => { //SEARCH button
 
         e.preventDefault();
         console.log('clicked search');
@@ -40,7 +40,7 @@ const Search = ({setList, setNoResult}) => {
 
         }}>Search</button>
 
-      <button onClick={(e) => { // All movies CLICK
+      <button onClick={(e) => { // ALL movies button
 
         e.preventDefault();
         setNoResult(false);
