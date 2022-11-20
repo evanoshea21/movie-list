@@ -1,42 +1,65 @@
 import React from 'react';
 import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
-import {movies1, movies2} from '../sampleData/data.js';
+import {movies1, movies2} from '../grabData/data.js';
 import AddMovie from './AddMovie.jsx';
 import WatchedButtons from './WatchedButtons.jsx';
-const {useState} = React;
-
+const axios = require('axios');
+const {useState, useEffect} = React;
 
 
 const App = (props) => {
-const [movielist, setlist] = useState(movies1);
+const [movielist, setlist] = useState([]);
 const [areNoResults, setAreNoResults] = useState(false);
+const [reRender, setRender] = useState(false);
 
-  function handleAdd(e) {
-  e.preventDefault();
-  console.log('this is e', e.target);
-  // console.log('value', e.target.movieName.value);
-  var copyArr = [{title: e.target.movieName.value}, ...movielist];
-  movies1.unshift({title: e.target.movieName.value});
-  console.log('this is the copy\n', copyArr);
-  setlist(copyArr);
-    }
-  function handleRender(inputlist) {
-    // debugger;
-    console.log('handling render with list: ..', inputlist);
-    // console.log(setlist);
-
-    setlist(inputlist);
+  function postReq(movieName) { //POST request postReq(jsonObj)
+    console.log('postReq in APP>JSX');
+    axios.post('/movies', {title: movieName, watched: 0})
+    .then((res) => {
+      getReqSetList();
+    })
+  }
+  function delReq(movieName) { //POST request postReq(jsonObj)
+    console.log('DelReq in APP>JSX-> ', movieName);
+    axios.delete(`/movies/${movieName}`)
+    .then((res) => {
+      getReqSetList();
+    })
+  }
+  function putReq(movieName) { //POST request postReq(jsonObj)
+    axios.put(`/movies/${movieName}`)
+    .then((res) => {
+      console.log('putReq response->', res);
+    })
   }
 
+  useEffect(() => { //mounts movies on initialize
+    console.log('MOUNTING');
+    axios.get('/movies')
+    .then((res) => {
+      setlist(res.data);
+    })
+  }, []);
+
+  function getReqSetList(endpoint = '') {
+    const url = `/movies${endpoint}`;
+    console.log('getReqSetList Fired URL->', url);
+
+    axios.get(url)
+    .then((res) => {
+      // console.log('Response AXIOS->', res.data); //all our movies
+      setlist(res.data);
+    })
+  }
 
   return (
   // <div>Hello World!</div>
   <div>
     <h1 className='header'>Movie List</h1>
-    <AddMovie handleAdd={handleAdd}/>
-    <Search setNoResult = {(b) => setAreNoResults(b)} setList={(list) => setlist(list)}/>
-    <MovieList handleRender={handleRender} areNoResults={areNoResults} movies={movielist}/>
+    <AddMovie postReq={postReq}/>
+    <Search getReq={getReqSetList} setNoResult={(b) => setAreNoResults(b)} setList={(list) => setlist(list)}/>
+    <MovieList delReq={delReq} putReq={putReq} areNoResults={areNoResults} movies={movielist}/>
   </div>
   );
 };

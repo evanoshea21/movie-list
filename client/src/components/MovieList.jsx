@@ -3,10 +3,7 @@ import MovieEntry from './MovieEntry.jsx';
 
 const {useState} = React;
 
-const MovieList = ({movies, areNoResults, handleRender}) => {
-console.log('MovieList?');
-// console.log('set NO result', setNoResult);
-
+const MovieList = ({movies, areNoResults, handleRender, putReq, delReq}) => {
 
 if(areNoResults) {
   return (
@@ -15,11 +12,9 @@ if(areNoResults) {
     </div>
   )
 } else  { //if Results, show movies
-  console.log('log inside movie List', movies);
-  console.log('Rendering Movie List..');
   return (
   <div>
-    {movies.map( (aMovie, i) => <MovieEntry handleRender={handleRender} movie={aMovie} key={i}/>)}
+    {movies.map( (aMovie, i) => <MovieEntry delReq={delReq} putReq={putReq} handleRender={handleRender} movie={aMovie} key={i}/>)}
   </div>
   );
 }

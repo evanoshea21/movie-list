@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {movies1, movies2} from '../sampleData/data.js';
+// import {movies1, movies2} from '../sampleData/data.js';
 
 
 const WatchedButtons = (props) => {

@@ -26,6 +26,17 @@ body {
 
 .btn {
   background-color: rgb(78, 193, 78);
+  height: 100%;
+}
+.delete-btn {
+  background-color: red;
+  width: 25%;
+}
+.the-btns {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: orange; */
+  width: 25%;
 }
 
 .to-watch {

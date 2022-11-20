@@ -1,50 +1,24 @@
 import React, {useState, useRef} from 'react';
-import {movies1, movies2} from '../sampleData/data.js';
+import {movies1, movies2} from '../grabData/data.js';
+// import {Parse} from '../grabData/parse.js';
+// const Parse = require('../grabData/parse.js');
+//import AXIOUS
+// const Axios = require(..);
 
 
-const Search = ({setList, setNoResult}) => {
-  // console.log('movies2\n\n', movies2);
-  // console.log('setList\n\n', setList);
-
-// const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-// const result = words.filter(word => word.length > 6);
-// console.log(result);
-
-  const inputRef = useRef(null);
-  // const [searchedMov, setSearchedMov] = useState([]);
-
-  function handleSearch() {
-    var inputVal = inputRef.current.value;
-
-    var filteredArr = movies1.filter(movie => movie.title.indexOf(inputVal) !== -1);
-    if(filteredArr.length === 0) {
-      setNoResult(true);
-    } else {
-      setNoResult(false);
-    setList(filteredArr);
-    }
-    //filter from
-  }
+const Search = ({getReq, setList, setNoResult}) => {
 
   return (
   <div className='search'>
-    <form>
-      <textarea placeholder='Search a Title..'ref={inputRef}></textarea>
-
-      <button onClick={(e) => { //SEARCH button
-
-        e.preventDefault();
-        console.log('clicked search');
-        handleSearch();
-
-
-        }}>Search</button>
+    <form onSubmit={(e) => {e.preventDefault(); getReq('/' + e.target.title.value)}}>
+      <input type="text" name="title" placeholder="Search a Title.."></input>
+      <button type="submit">Search</button>
 
       <button onClick={(e) => { // ALL movies button
-
         e.preventDefault();
+        getReq();
         setNoResult(false);
-        setList(movies1);
+        //AXIOS.get
 
         } }>All Movies</button>
     </form>
