@@ -15,7 +15,7 @@ const [reRender, setRender] = useState(false);
 
   function postReq(movieName) { //POST request postReq(jsonObj)
     console.log('postReq in APP>JSX');
-    axios.post('/movies', {title: movieName, watched: 0})
+    axios.post('/movies', {title: movieName})
     .then((res) => {
       getReqSetList();
     })

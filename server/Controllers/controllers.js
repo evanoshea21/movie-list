@@ -1,6 +1,9 @@
 
 const models = require('../Models/models');
 //CONTROLLERS HAVE THE DATA -- req/res
+const axios = require('axios');
+var apiKey = '35cbe9c0f83a096e93a2f2f7900b314b';
+
 
 module.exports = { //routes requires us.. so export
    get: (req, res) => { //all movies
@@ -8,7 +11,7 @@ module.exports = { //routes requires us.. so export
      models.getAll((err, data) => { //in form of Arr of Objs(rows) //
        if(err) {
         console.log('error in controllers getALL->', err);
-        // res.end('error in controllers getALL->', err);
+        res.end(err);
        } else {
         console.log('Data in controllers getAll->', data);
         res.end(JSON.stringify(data));
@@ -16,15 +19,20 @@ module.exports = { //routes requires us.. so export
      });
    },
     post: (req, res) => {//add movie
+      var url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${req.body.title}`;
+      res.statusCode = 201;
       // console.log('CONTROLLERS POST with req.title->', req.body.title);
-      models.post(req.body.title, (err, data) => { //add to database
-        if(err) {
-          res.end('error in controllers getALL')
-         } else {
-          console.log('Data in controllers POST->', data);
-          res.status(201).end(data);
-         }
-     });
+      axios.get(url)
+      .then((res) => {
+        models.post(res.data.results[0])
+      })
+      .then(() => {
+        res.end();
+      })
+      .catch(() => {
+        // res.end(err);
+      })
+
     },
     put: (req, res) => {//update watched
       console.log('Put req params->', req.params);

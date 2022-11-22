@@ -2,7 +2,8 @@ const db = require('../../DB/index');
 
 module.exports = {
 
-  getAll: (cb) => {
+  getAll: (cb) => { //35cbe9c0f83a096e93a2f2f7900b314b
+    var apiKey
     const qString = `SELECT * FROM movies`;
     db.query(qString, (err, results) => {
       if(err) {
@@ -10,7 +11,7 @@ module.exports = {
         cb(err);
       } else {
         console.log('these are movie results models-getALL (TG?)', results); //array of Obj
-        console.log('at0title results->', results['0'].title);
+        // console.log('at0title results->', results['0'].title);
         cb(null, results);
       }
     })
@@ -24,7 +25,7 @@ module.exports = {
         cb(err);
       } else {
         console.log('these are movie results models-getALL (TG?)', results); //array of Obj
-        console.log('GETONE results----------->', results['0'].title);
+        // console.log('GETONE results----------->', results['0'].title);
         cb(null, results);
       }
     })
@@ -66,16 +67,9 @@ module.exports = {
     })
   },
 
-  post: (title, cb) => {
-    const qString = `INSERT INTO movies (title, watched) values(?, 0)`;
-    db.query(qString, [title], (err, results) => {
-      if(err) {
-        console.log('ERROR IN MODELS->', err);
-        cb(err);
-      } else {
-        cb(null, JSON.stringify(results));
-      }
-    })
+  post: (movieObject) => {
+    const qString = `INSERT INTO movies (title, watched, metascore, release_date) values(?,0,?,?)`;
+    db.query(qString, [movieObject.title, movieObject.vote_count, movieObject.release_date])
   },
 
   updateWatched: (title, cb) => {
